@@ -1,6 +1,9 @@
+import React,{useState} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList} from 'react-native';
 import Header from './components/Header';
+import TodoItem from './components/TodoItem';
+import AddTodo from './components/AddTodo';
 
 export default function App() {
 
@@ -10,16 +13,22 @@ export default function App() {
     { text: 'play on the switch', key: '3' }
   ]);
 
+  const pressHandler = (key) => {
+    setTodos((prevTodo) => {
+      return prevTodo.filter(todo => todo.key != key)
+    })
+  }
+
   return (
     <View style={styles.container}>
       <Header/>
       <View style={styles.content}>
-        {/*to form*/}
+        <AddTodo/>
         <View style={styles.list}>
           <FlatList
             data={todos}
             renderItem={({item}) => (
-              <Text>{item.text}</Text>
+              <TodoItem item={item} pressHandler={pressHandler}/>
             )}
           />
         </View>
